@@ -247,7 +247,7 @@
         "bzlTransitiveDigest": "UB2OI7PdMRWhJQhWNUcnimSFkWOi5EeJeadoRPQIWJI=",
         "usagesDigest": "GRA7t2DCnzAG1XNzaYZ6h3J5KEAVqW0r5+lYxdH1wr8=",
         "recordedFileInputs": {
-          "@@//bazel_requirements_lock.txt": "db46eacab21eba9c5ce8be59079ddd9db9b88bed77b3f2ac26508ae794ce0800",
+          "@@//bazel_requirements_lock.txt": "9ddd9027704bf6a3b5c0004f6c9c0e5355deec0181e5e2f1451a9cc5db6cbd62",
           "@@protobuf+//python/requirements.txt": "983be60d3cec4b319dcab6d48aeb3f5b2f7c3350f26b3a9e97486c37967c73c5",
           "@@rules_fuzzing+//fuzzing/requirements.txt": "ab04664be026b632a0d2a2446c4f65982b7654f5b6851d2f9d399a19b7242a5b",
           "@@rules_python+//tools/publish/requirements_darwin.txt": "095d4a4f3d639dce831cd493367631cd51b53665292ab20194bac2c0c6458fa8",
@@ -509,7 +509,7 @@
               "dep_template": "@pypi//{name}:{target}",
               "python_interpreter_target": "@@rules_python++python+python_3_13_host//:python",
               "repo": "pypi_313",
-              "requirement": "fsspec[http]==2025.3.0"
+              "requirement": "fsspec[http]==2024.12.0"
             }
           },
           "pypi_313_h11": {
@@ -797,7 +797,7 @@
               "dep_template": "@pypi//{name}:{target}",
               "python_interpreter_target": "@@rules_python++python+python_3_13_host//:python",
               "repo": "pypi_313",
-              "requirement": "sympy==1.13.3"
+              "requirement": "sympy==1.13.1"
             }
           },
           "pypi_313_tokenizers": {

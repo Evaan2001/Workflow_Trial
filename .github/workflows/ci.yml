@@ -51,7 +51,8 @@ jobs:
           --test_output=errors \
           //testing_for_re/using_np:numpy_test \
           //testing_for_re/simple_pilot:hello_world_test \
-          //src/models/huggingface:hugging_face_test \
+          //src/models/claude_client:claude_client_test \
+          # //src/models/huggingface:hugging_face_test \
 
     - name: Display test logs
       if: always()

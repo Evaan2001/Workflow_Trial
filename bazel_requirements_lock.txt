@@ -159,3 +159,5 @@ python-dotenv==1.1.0
     # for loading env variables
 scipy==1.15.2
     # for torch to get embeddings
+triton==3.2.0
+    # for torch

@@ -1,0 +1,52 @@
+name: AI Monorepo (Bazel) CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    environment: production
+    steps:
+        
+    - name: Checkout
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+    - name: Setup Bazelisk
+      uses: bazel-contrib/setup-bazel@b388b84bb637e50cdae241d0f255670d4bd79f29 # v0.8.1
+      with:
+        bazelisk-cache: true
+
+    - name: Run standard tests
+      shell: bash
+      run: |
+        bazel test \
+          --remote_cache=${{ vars.NATIVELINK_COM_REMOTE_CACHE_URL }} \
+          --remote_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+          --bes_backend=${{ vars.NATIVELINK_COM_BES_URL }} \
+          --bes_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+          --bes_results_url=${{ vars.NATIVELINK_COM_BES_RESULTS_URL }} \
+          --remote_header=x-nativelink-project=nativelink-ci \
+          //testing_for_re/using_np:numpy_test \
+          //testing_for_re/simple_pilot:hello_world_test \
+    #       //src/models/huggingface:hugging_face_test \
+    #       //src/models/claude_client:claude_client_test \
+    #       //src/training:training_test \
+    #       //src/agents:hybrid_agent_test \
+    #       //src:cache_manager_test
+          
+    # - name: Run complete agent test with examples
+    #   shell: bash
+    #   run: |
+    #     bazel test \
+    #       --remote_cache=${{ vars.NATIVELINK_COM_REMOTE_CACHE_URL }} \
+    #       --remote_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+    #       --bes_backend=${{ vars.NATIVELINK_COM_BES_URL }} \
+    #       --bes_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+    #       --bes_results_url=${{ vars.NATIVELINK_COM_BES_RESULTS_URL }} \
+    #       --remote_header=x-nativelink-project=nativelink-ci \
+    #       --test_arg="--examples" \
+    #       //src/demo:complete_agent_test

@@ -33,7 +33,7 @@ frozenlist==1.5.0
     # via
     #   aiohttp
     #   aiosignal
-fsspec[http]==2025.3.0
+fsspec[http]==2024.12.0
     # via
     #   datasets
     #   huggingface-hub
@@ -99,7 +99,7 @@ safetensors==0.5.3
     # via transformers
 six==1.17.0
     # via python-dateutil
-sympy==1.13.3
+sympy==1.13.1
     # via torch
 tokenizers==0.21.1
     # via transformers

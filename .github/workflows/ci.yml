@@ -9,9 +9,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-22.04
+    # container:
+    #   image: docker.io/evaanahmed2001/python-bazel-env:amd64-v2
     environment: production
+
     steps:
-        
     - name: Checkout
       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
@@ -19,6 +21,22 @@ jobs:
       uses: bazel-contrib/setup-bazel@b388b84bb637e50cdae241d0f255670d4bd79f29 # v0.8.1
       with:
         bazelisk-cache: true
+
+    - name: Setup Python with cache
+      uses: actions/setup-python@v4
+      with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: 'bazel_requirements_lock.txt'
+          
+    - name: Install Python dependencies
+      run: |
+          python -m pip install --upgrade pip
+          pip install -r bazel_requirements_lock.txt # Install dependencies directly in the GitHub runner
+
+    - name: Make all shell scripts executable
+      run: |
+          find . -name "*.sh" -type f -exec chmod +x {} \;
 
     - name: Run standard tests
       shell: bash
@@ -30,8 +48,16 @@ jobs:
           --bes_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
           --bes_results_url=${{ vars.NATIVELINK_COM_BES_RESULTS_URL }} \
           --remote_header=x-nativelink-project=nativelink-ci \
+          --test_output=errors \
           //testing_for_re/using_np:numpy_test \
           //testing_for_re/simple_pilot:hello_world_test \
+
+    - name: Display test logs
+      if: always()
+      run: |
+        bazel --output_base=/tmp/bazel run //testing_for_re/using_np:numpy_script || echo "Failed to run script directly"
+        find /home/runner/.bazel -name test.log -exec ls -la {} \; || echo "No test logs found"
+        find /home/runner/.bazel -name test.log -exec cat {} \; || echo "Could not read test logs"
     #       //src/models/huggingface:hugging_face_test \
     #       //src/models/claude_client:claude_client_test \
     #       //src/training:training_test \

@@ -1,0 +1,7 @@
+.DS_Store
+bazel-ai-monorepo 
+bazel-out
+bazel-bin
+bazel-testlogs
+.bazelrc
+.env

@@ -1,4 +1,5 @@
 load("@rules_python//python:py_binary.bzl", "py_binary")
+load("@rules_python//python:py_test.bzl", "py_test")
 load("@pypi//:requirements.bzl", "requirement")
 
 py_binary(
@@ -7,7 +8,8 @@ py_binary(
     main="use_numpy.py",  # Explicitly specify the main file
     deps=[
         requirement("numpy"),
-        requirement("torch"),
+        # requirement("torch"),
+        # requirement("triton"),
     ],
 )
 

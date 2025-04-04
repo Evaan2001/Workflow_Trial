@@ -159,5 +159,33 @@ python-dotenv==1.1.0
     # for loading env variables
 scipy==1.15.2
     # for torch to get embeddings
+
+# Torch dependencies for GPU support
 triton==3.2.0
     # for torch
+nvidia-nvtx-cu12==12.4.127
+    # for hugging face / torch
+nvidia_nvjitlink_cu12==12.4.127
+    # for hugging face / torch
+nvidia_nccl_cu12==2.21.5
+    # for hugging face / torch
+nvidia-cusparselt-cu12==0.6.2
+    # for hugging face / torch
+nvidia-cusparse-cu12==12.3.1.170
+    # for hugging face / torch
+nvidia_cufft_cu12==11.2.1.3
+    # for hugging face / torch
+nvidia-cuda-runtime-cu12==12.4.127
+    # for hugging face / torch
+nvidia-curand-cu12==10.3.5.147
+    # for hugging face / torch
+nvidia_cudnn_cu12==9.1.0.70
+    # for hugging face / torch
+nvidia-cusolver-cu12==11.6.1.9
+    # for hugging face / torch
+nvidia_cuda_cupti_cu12==12.4.127
+    # for hugging face / torch
+nvidia-cublas-cu12==12.4.5.8
+    # for hugging face / torch
+nvidia-cuda-nvrtc-cu12==12.4.127
+    # for hugging face / torch

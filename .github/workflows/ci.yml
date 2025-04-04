@@ -9,8 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-22.04
-    # container:
-    #   image: docker.io/evaanahmed2001/python-bazel-env:amd64-v2
     environment: production
 
     steps:
@@ -22,23 +20,28 @@ jobs:
       with:
         bazelisk-cache: true
 
-    - name: Setup Python with cache
-      uses: actions/setup-python@v4
-      with:
-          python-version: '3.13'
-          cache: 'pip'
-          cache-dependency-path: 'bazel_requirements_lock.txt'
+    # - name: Setup Python with cache
+    #   uses: actions/setup-python@v4
+    #   with:
+    #       python-version: '3.13'
+    #       cache: 'pip'
+    #       cache-dependency-path: 'bazel_requirements_lock.txt'
           
-    - name: Install Python dependencies
-      run: |
-          python -m pip install --upgrade pip
-          pip install -r bazel_requirements_lock.txt # Install dependencies directly in the GitHub runner
+    # - name: Install Python dependencies
+    #   run: |
+    #       python -m pip install --upgrade pip
+    #       pip install -r bazel_requirements_lock.txt # Install dependencies directly in the GitHub runner
 
     - name: Make all shell scripts executable
       run: |
           find . -name "*.sh" -type f -exec chmod +x {} \;
+    
+    - name: Set up environment
+      run: |
+        echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" > .env
+        echo "RUN_API_TESTS=true" >> .env
 
-    - name: Run standard tests
+    - name: Run 1st Set of Tests Excluding Cache Manager Tests # Run standard tests
       shell: bash
       run: |
         bazel test \
@@ -48,32 +51,43 @@ jobs:
           --bes_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
           --bes_results_url=${{ vars.NATIVELINK_COM_BES_RESULTS_URL }} \
           --remote_header=x-nativelink-project=nativelink-ci \
-          --test_output=errors \
-          //testing_for_re/using_np:numpy_test \
+          --remote_executor=grpcs://scheduler-evaan2001.build-faster.nativelink.net:443 \
+          --remote_default_exec_properties="container-image=docker://docker.io/evaanahmed2001/python-bazel-env:amd64-v2" \
+          --test_output=all \
           //testing_for_re/simple_pilot:hello_world_test \
+          //testing_for_re/using_np:numpy_test \
           //src/models/claude_client:claude_client_test \
-          # //src/models/huggingface:hugging_face_test \
-
-    - name: Display test logs
-      if: always()
+          //src/models/huggingface:hugging_face_test \
+          //src/training:training_test \
+          //src/agents:hybrid_agent_test \
+          
+    - name: Run Cache Manager tests # Run standard tests
+      shell: bash
       run: |
-        find /home/runner/.bazel -name test.log -exec ls -la {} \; || echo "No test logs found"
-        find /home/runner/.bazel -name test.log -exec cat {} \; || echo "Could not read test logs"
-          
-    #       //src/models/claude_client:claude_client_test \
-    #       //src/training:training_test \
-    #       //src/agents:hybrid_agent_test \
-    #       //src:cache_manager_test
-          
-    # - name: Run complete agent test with examples
-    #   shell: bash
-    #   run: |
-    #     bazel test \
-    #       --remote_cache=${{ vars.NATIVELINK_COM_REMOTE_CACHE_URL }} \
-    #       --remote_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
-    #       --bes_backend=${{ vars.NATIVELINK_COM_BES_URL }} \
-    #       --bes_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
-    #       --bes_results_url=${{ vars.NATIVELINK_COM_BES_RESULTS_URL }} \
-    #       --remote_header=x-nativelink-project=nativelink-ci \
-    #       --test_arg="--examples" \
-    #       //src/demo:complete_agent_test
+        bazel test \
+          --remote_cache=${{ vars.NATIVELINK_COM_REMOTE_CACHE_URL }} \
+          --remote_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+          --bes_backend=${{ vars.NATIVELINK_COM_BES_URL }} \
+          --bes_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+          --bes_results_url=${{ vars.NATIVELINK_COM_BES_RESULTS_URL }} \
+          --remote_header=x-nativelink-project=nativelink-ci \
+          --remote_executor=grpcs://scheduler-evaan2001.build-faster.nativelink.net:443 \
+          --remote_default_exec_properties="container-image=docker://docker.io/evaanahmed2001/python-bazel-env:amd64-v2" \
+          --test_output=all \
+          //src:cache_manager_test
+  
+    - name: Run complete agent test with examples
+      shell: bash
+      run: |
+        bazel test \
+          --remote_cache=${{ vars.NATIVELINK_COM_REMOTE_CACHE_URL }} \
+          --remote_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+          --bes_backend=${{ vars.NATIVELINK_COM_BES_URL }} \
+          --bes_header=${{ secrets.NATIVELINK_COM_API_HEADER }} \
+          --bes_results_url=${{ vars.NATIVELINK_COM_BES_RESULTS_URL }} \
+          --remote_header=x-nativelink-project=nativelink-ci \
+          --remote_executor=grpcs://scheduler-evaan2001.build-faster.nativelink.net:443 \
+          --remote_default_exec_properties="container-image=docker://docker.io/evaanahmed2001/python-bazel-env:amd64-v2" \
+          --test_output=all \
+          --test_arg="--examples" \
+          //src/demo:complete_agent_test

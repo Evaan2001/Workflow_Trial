@@ -1,0 +1,17 @@
+Anthropic is an AI safety company working to ensure AI systems are aligned with human values.
+
+Claude is a family of AI assistants made by Anthropic that can have natural conversations and perform complex tasks.
+
+The Claude 3 model family includes variants such as Claude 3 Opus, Claude 3 Sonnet, and Claude 3 Haiku, each with different capabilities and performance characteristics.
+
+Hugging Face is an AI community and platform that provides access to thousands of pre-trained models, datasets, and tools for natural language processing and machine learning.
+
+NativeLink is a remote execution and caching system that can be hosted in your cloud environment, helping to optimize AI development workflows.
+
+The Pants build system is designed for monorepos, allowing teams to organize code into logical components while maintaining dependency relationships.
+
+Enterprise-grade AI systems often require sophisticated infrastructure to handle development velocity, infrastructure costs, and engineering complexity.
+
+Model Context Protocol is a system for structured communication with AI models, making it easier to build reliable AI applications.
+
+Remote caching for model weights can significantly speed up development time by avoiding redundant downloads of large model files.

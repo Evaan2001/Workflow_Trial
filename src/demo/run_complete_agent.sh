@@ -1,17 +1,15 @@
 #!/bin/bash
-# Shell script to run our NumPy code
 
 # Get the directory where this script is located
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Starting Hugging Face test from directory: $DIR"
+echo "Starting Hybrid Agent test from directory: $DIR"
 echo "Python version:"
 python3 --version
 
-# Run the Python script
-echo "Running Python script ..."
-python3 "$DIR/transformers_client.py"
-
+# Run the Python script with all arguments passed to the shell script
+echo "Running Python script with arguments: $@"
+python3 "$DIR/complete_agent.py" "$@"
 # Capture the exit code
 exit_code=$?
 

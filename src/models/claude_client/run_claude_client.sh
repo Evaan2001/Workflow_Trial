@@ -4,7 +4,7 @@
 # Get the directory where this script is located
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Starting ML Training test from directory: $DIR"
+echo "Starting Claude Client test from directory: $DIR"
 echo "Python version:"
 python3 --version
 

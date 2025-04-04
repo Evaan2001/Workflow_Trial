@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 
 class ClaudeClient:
+
     def __init__(self, api_key=None):
         self.client = Anthropic(api_key=api_key)
 

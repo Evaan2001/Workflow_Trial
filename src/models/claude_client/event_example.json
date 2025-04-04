@@ -1,0 +1,62 @@
+{
+    "system_prompt": "You are an event information extraction assistant. Extract key details from the event description and return them in a structured format.",
+    "user_message": "Join us for TechConf 2025, the premier technology conference happening in San Francisco from April 15-17, 2025. Early bird tickets are $399 until March 15, then regular admission is $599. Featured speakers include Dr. Sarah Chen (AI Ethics), Mark Johnson (Quantum Computing), and Lisa Rodriguez (Cybersecurity). The conference will be held at the Moscone Center. Register at techconf2025.com.",
+    "response_schema": {
+        "type": "object",
+        "properties": {
+            "event_name": {
+                "type": "string"
+            },
+            "location": {
+                "type": "string"
+            },
+            "start_date": {
+                "type": "string",
+                "format": "date"
+            },
+            "end_date": {
+                "type": "string",
+                "format": "date"
+            },
+            "ticket_prices": {
+                "type": "object",
+                "properties": {
+                    "early_bird": {
+                        "type": "number"
+                    },
+                    "regular": {
+                        "type": "number"
+                    }
+                }
+            },
+            "speakers": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "topic": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "venue": {
+                "type": "string"
+            },
+            "website": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "event_name",
+            "location",
+            "start_date",
+            "end_date",
+            "ticket_prices",
+            "speakers"
+        ]
+    }
+}

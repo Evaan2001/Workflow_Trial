@@ -1,0 +1,30 @@
+{
+    "system_prompt": "You are a sentiment analysis assistant. Analyze the provided text and return a structured response with the sentiment (positive, negative, or neutral) and confidence score.",
+    "user_message": "I absolutely loved the new restaurant we tried last night! The food was amazing and the service was excellent.",
+    "response_schema": {
+        "type": "object",
+        "properties": {
+            "sentiment": {
+                "type": "string",
+                "enum": [
+                    "positive",
+                    "negative",
+                    "neutral"
+                ]
+            },
+            "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+            },
+            "explanation": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "sentiment",
+            "confidence",
+            "explanation"
+        ]
+    }
+}
